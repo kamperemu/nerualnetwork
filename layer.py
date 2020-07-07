@@ -3,7 +3,7 @@ import random, os
 
 
 # class for the main neural network which is Perceptron
-class nerualLayer:
+class neuralLayer:
 
     # intializaition of the variables
     def __init__(self,noInputNeurons,noOutputNeurons,typeActivation):
