@@ -1,9 +1,49 @@
 from layer import neuralLayer
 
 class neuralNetwork:
-    def __init__(self,*args,typeActivation):
+    def __init__(self,*layerNoNeurons,typeActivation):
+        self.layerNoNeurons = layerNoNeurons
+        self.typeActivation = typeActivation
         self.nl = []
-        for i in range(len(args)-1):
-            self.nl.append(neuralLayer(args[i],args[i+1],typeActivation))
+        for i in range(len(layerNoNeurons)-1):
+            self.nl.append(neuralLayer(layerNoNeurons[i],layerNoNeurons[i+1],self.typeActivation))
 
-net = neuralNetwork(4,5,6,typeActivation="sigmoid")
+    def deriactivation(self, guess):
+        if self.typeActivation == "sigmoid":
+            guess = guess * (1 - guess)
+        elif self.typeActivation == "ReLU":
+            if guess > 0:
+                guess = 1
+            else:
+                guess = 0
+        return guess
+
+    def thinkOutput(self,inputs):
+        for i in range(len(self.nl)):
+            inputs = self.nl[i].think(inputs)
+        return inputs
+
+    def thinkLayer(self,inputs):
+        layer = []
+        layer.append(inputs)
+        for i in range(len(self.nl)):
+            layer.append(self.nl[i].think(inputs))
+        return layer
+
+    def train(self,inputs,outputs):
+        layer = []
+        for i in range(len(inputs)):
+            layer.append(self.thinkLayer(inputs))
+        print(layer)
+
+            
+            
+
+
+net = neuralNetwork(2,2,2,typeActivation="sigmoid")
+
+inputs = [[0,0],[0,1],[1,0],[1,1]]
+outputs = [[0,0],[1,0],[1,0],[1,1]]
+
+
+net.train(inputs,outputs)

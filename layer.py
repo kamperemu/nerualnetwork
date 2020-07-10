@@ -33,35 +33,6 @@ class neuralLayer:
                 guess = 0
         return guess
 
-    def deriactivation(self, guess):
-        if self.typeActivation == "sigmoid":
-            guess = guess * (1 - guess)
-        elif self.typeActivation == "ReLU":
-            if guess > 0:
-                guess = 1
-            else:
-                guess = 0
-        return guess
-
-
-    def train(self, inputs, outputs):
-
-        # goes through all the inputs and outputs
-        for i in range(len(outputs)):
-            
-            
-            # we find the error in the neural network
-            guess = self.think(inputs[i])
-            for j in range(self.noOutputNeurons):
-                error = outputs[i][j] - guess[j]
-
-                # weights are adjusted according to the error in the neural network
-                for k in range(self.noInputNeurons+1):
-                    # first we change the errors of the weights of inputs and then for the bias
-                    try:
-                        self.weights[j][k] += error * inputs[i][k] 
-                    except IndexError:
-                        self.weights[j][k] += error * self.bias 
 
 
     # the calculations that need to be done for finding the value of the next neuron
@@ -82,4 +53,24 @@ class neuralLayer:
             # we find the activation of the required summation
             sum[i] = self.activation(sum[i])
         return sum
+
+    def train(self, inputs, outputs):
+
+        # goes through all the inputs and outputs
+        for i in range(len(outputs)):
+            
+            
+            # we find the error in the neural network
+            guess = self.think(inputs[i])
+            for j in range(self.noOutputNeurons):
+                error = outputs[i][j] - guess[j]
+
+                # weights are adjusted according to the error in the neural network
+                for k in range(self.noInputNeurons+1):
+                    # first we change the errors of the weights of inputs and then for the bias
+                    try:
+                        self.weights[j][k] += error * inputs[i][k] 
+                    except IndexError:
+                        self.weights[j][k] += error * self.bias 
+
 
