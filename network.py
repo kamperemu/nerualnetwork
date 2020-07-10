@@ -30,17 +30,24 @@ class neuralNetwork:
             layer.append(self.nl[i].think(inputs))
         return layer
 
+
     def train(self,inputs,outputs):
+        layerTEMP = []
+        for i in inputs:
+            layerTEMP.append(self.thinkLayer(i))
         layer = []
-        for i in range(len(inputs)):
-            layer.append(self.thinkLayer(inputs))
-        print(layer)
+        for i in range(len(self.layerNoNeurons)):
+            layer.append([])
+            for j in range(len(inputs)):
+                layer[i].append(layerTEMP[j][i])
+        
+        
 
             
-            
+                
 
 
-net = neuralNetwork(2,2,2,typeActivation="sigmoid")
+net = neuralNetwork(2,2,2,2,typeActivation="sigmoid")
 
 inputs = [[0,0],[0,1],[1,0],[1,1]]
 outputs = [[0,0],[1,0],[1,0],[1,1]]
