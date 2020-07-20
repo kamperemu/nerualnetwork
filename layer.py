@@ -33,26 +33,37 @@ class neuralLayer:
                 guess = 0
         return guess
 
-
+    def deriactivation(self, guess):
+        if self.typeActivation == "sigmoid":
+            guess = guess * (1 - guess)
+        elif self.typeActivation == "ReLU":
+            if guess > 0:
+                guess = 1
+            else:
+                guess = 0
+        return guess
 
     # the calculations that need to be done for finding the value of the next neuron
     def think(self,inputs):
 
         # summation of the product of weights and input neurons (NOTE: I could have done it with dot method in numpy)
-        sum = []
+        summation = []
         for i in range(self.noOutputNeurons):
-            sum.append(0)
+            summation.append(0)
             for j in range(self.noInputNeurons+1):
                 # first we add the inputs with the products and the final one is the product of weight and bias
                 try:
-                    sum[i] += inputs[j] * self.weights[i][j]
+                    summation[i] += inputs[j] * self.weights[i][j]
                 except IndexError:
-                    sum[i] += self.bias * self.weights[i][j]
+                    summation[i] += self.bias * self.weights[i][j]
 
 
             # we find the activation of the required summation
-            sum[i] = self.activation(sum[i])
-        return sum
+            summation[i] = self.activation(summation[i])
+        return summation
+
+    def backProp(self,guess):
+        
 
     def train(self, inputs, outputs):
 
