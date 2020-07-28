@@ -19,7 +19,7 @@ class neuralLayer:
             self.weights.append([])
             for i in range(noInputNeurons+1):
                 self.weights[j].append(random.random())
-
+    
     # this is the function being used for the data so that we can fit the neural network
     def activation(self,guess):
         if self.typeActivation == "sigmoid":
@@ -33,15 +33,7 @@ class neuralLayer:
                 guess = 0
         return guess
 
-    def deriactivation(self, guess):
-        if self.typeActivation == "sigmoid":
-            guess = guess * (1 - guess)
-        elif self.typeActivation == "ReLU":
-            if guess > 0:
-                guess = 1
-            else:
-                guess = 0
-        return guess
+    
 
     # the calculations that need to be done for finding the value of the next neuron
     def think(self,inputs):
@@ -61,9 +53,6 @@ class neuralLayer:
             # we find the activation of the required summation
             summation[i] = self.activation(summation[i])
         return summation
-
-    def backProp(self,guess):
-        
 
     def train(self, inputs, outputs):
 
