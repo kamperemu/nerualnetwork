@@ -20,22 +20,17 @@ class neuralLayer:
             for i in range(noInputNeurons+1):
                 self.weights[j].append(random.random())
     
-    # this is the function being used for the data so that we can fit the neural network
+    # calculate the next layer (NOTE: I know its a bad explanation of what the function does)
     def activation(self,guess):
         if self.typeActivation == "sigmoid":
             guess = 1/(1+np.exp(-guess))
         elif self.typeActivation == "ReLU":
             guess = np.maximum(0,guess)
-        elif self.typeActivation == "step":
-            if guess > 0:
-                guess = 1
-            else:
-                guess = 0
         return guess
 
     
 
-    # the calculations that need to be done for finding the value of the next neuron
+    # the calculations that need to be done for finding the value of the next layer
     def think(self,inputs):
 
         # summation of the product of weights and input neurons (NOTE: I could have done it with dot method in numpy)
@@ -43,7 +38,7 @@ class neuralLayer:
         for i in range(self.noOutputNeurons):
             summation.append(0)
             for j in range(self.noInputNeurons+1):
-                # first we add the inputs with the products and the final one is the product of weight and bias
+                # first we add the inputs with the product of weights and the input and the final one is the product of weight and bias
                 try:
                     summation[i] += inputs[j] * self.weights[i][j]
                 except IndexError:
@@ -53,24 +48,3 @@ class neuralLayer:
             # we find the activation of the required summation
             summation[i] = self.activation(summation[i])
         return summation
-
-    def train(self, inputs, outputs):
-
-        # goes through all the inputs and outputs
-        for i in range(len(outputs)):
-            
-            
-            # we find the error in the neural network
-            guess = self.think(inputs[i])
-            for j in range(self.noOutputNeurons):
-                error = outputs[i][j] - guess[j]
-
-                # weights are adjusted according to the error in the neural network
-                for k in range(self.noInputNeurons+1):
-                    # first we change the errors of the weights of inputs and then for the bias
-                    try:
-                        self.weights[j][k] += error * inputs[i][k] 
-                    except IndexError:
-                        self.weights[j][k] += error * self.bias 
-
-
